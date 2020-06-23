@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+
+        <title>
+            Some tests with interpolations
+        </title>
+
+        <style type="text/css" rel="stylesheet">
+            [v-cloak] { display: none }
+        </style>
+    </head>
+
+    <body>
+        <!--
+            The v-cloak configured with display:none style only show the contant when
+            the vue instace is compiled, avoiding vue instaces, aka. moustaches from
+            flashing during a page refresh.
+        -->
+        <div id="app">
+
+            <!-- Data binding using the mustache sintax: -->
+            <div>
+                <b>Message:</b> <span v-cloak>{{ msg }}</span><br/>
+                <b>Like Fallout war, this message never changes:</b> <span v-once v-cloak>{{ msg }}</span><p>
+            </div>
+
+            <!-- When modifiyng or creating Raw HTML the mustache sintax is useless, instead, use a v-html directive -->
+            <div>
+                <b>Using the mustache sintax:</b> <span v-cloak>{{ rawHtml }}</span><br/>
+                <b>Using a fucking v-html directive:</b> <span v-html="rawHtml" v-cloak></span><p>
+            </div>
+
+            <!-- Insert attributes inside HTML with v-bind -->
+            <div v-bind:id="dynamicId">
+                <b>This div id:</b> <span v-cloak>{{ dynamicId }}</span><br/>
+
+                <button v-bind:disabled="isButtonDisabled">Active this button changing app.isButtonDisabled to false</button><p>
+            </div>
+
+            <!-- Using JS expressions -->
+            <div v-bind:id="'random-id-' + dynamicId">
+                <b>The dynamic id + 17, why 17? I dont know:</b> <span v-cloak>{{ dynamicId + 17 }}</span><br/>
+
+                <!-- Ternary expression example -->
+                <span v-cloak>{{ (! isButtonDisabled) ? secretMessage : '' }}</span>
+            </div>
+
+        </div>
+    </body>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: function() {
+                return {
+                    msg: 'Initial message',
+                    rawHtml: '<span style="color:blue">This text is Red</span>',
+                    dynamicId: this.generateRandomId(),
+                    isButtonDisabled: true,
+                    secretMessage: 'Im a secret message unlocked by the divine powers of moustache ternary expression and app.isButtonDisabled = false',
+                }
+            },
+            methods: {
+                generateRandomId: function() {
+                    var randomId = Math.floor(1 + Math.random() * 100);
+
+                    return randomId;
+                }
+            },
+        });
+    </script>
+</html>
