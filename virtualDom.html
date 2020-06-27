@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+
+        <title>
+            Hello world VUE with vDOM
+        </title>
+    </head>
+
+    <body>
+        <div id="app"></div>
+    </body>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                message: 'The cooler Hello World. created with Virtual DOM',
+                elementId: 'hello_world_div',
+            },
+            methods: {
+                onClick: function() {
+                    alert('Hello');
+                },
+            },
+            /*
+             *  Creates the render(h) function and a <div>, also sets some div functions and elements
+             *  h == element
+             */
+            render(h) {
+                return h('div', {
+                    attrs: {
+                        id: this.elementId,
+                    },
+                    style: {
+                        textAlign: 'center',
+                        fontSize: '3rem',
+                    },
+                    on: {
+                        click: this.onClick,
+                    },
+                }, this.message);
+            },
+        });
+    </script>
+</html>
