@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Vue menu
+        </title>
+
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+
+    <body>
+        <div id="app">
+            <nav class="nav nav-pills">
+                <a href="#" class="nav-item nav-link" data-toggle="pill" v-on:click="makeMenuActive('Home')">Home</a>
+                <a href="#" class="nav-item nav-link" data-toggle="pill" v-on:click="makeMenuActive('Something')">Something</a>
+                <a href="#" class="nav-item nav-link" data-toggle="pill" v-on:click="makeMenuActive('Random')">Random</a>
+            </nav>
+
+            <p>You choose <b>{{text}}</b></p>
+        </div>
+    </body>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: function() {
+                return {
+                    text: '',
+                };
+            },
+            methods: {
+                makeMenuActive: function(item) {
+                    this.text = item;
+                },
+            }
+        });
+    </script>
+</html>

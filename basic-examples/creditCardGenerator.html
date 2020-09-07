@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Generate your credit card !!
+        </title>
+
+        <style type="text/css">
+            .card-style {
+                width: 300px;
+                height: 175px;
+                border-radius: 1rem;
+                background-color: purple;
+                border: 1.5px solid black;
+                margin: 0.5rem;
+            }
+
+            .card-number {
+                font-family: Arial, Helvetica, sans-serif;
+                color: #fff;
+                margin-left: 20px;
+            }
+
+            .card-name {
+                font-family: Arial, Helvetica, sans-serif;
+                color: #fff;
+                margin-top: 80px;
+                margin-left: 20px;
+                font-size: 22px;
+            }
+        </style>
+
+    </head>
+
+    <body>
+        <div id="app">
+            Write your name: <input v-model="name" required><br/>
+            <button v-on:click="generateCard" v-if="name">Generate Card. Also call to PF</button>
+
+            <div>
+                <ol>
+                    <credit-card
+                        v-for="card in cards"
+                        v-bind:card="card"
+                        v-bind:key="card.id"
+                    ></credit-card>
+                </ol>
+            </div>
+        </div>
+    </body>
+
+    <script type="text/template" id="credit_card_template">
+        <li>
+            <div class="card-style">
+                <p class="card-name">{{ card.name }}</p>
+                <p class="card-number">
+                    {{ card.number }} <br/>
+                    {{ card.code }}
+                </p>
+            </div>
+        </li>
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script type="text/javascript">
+        var creditCardTemplate = document.getElementById('credit_card_template');
+
+        Vue.component('credit-card', {
+            props: ['card'],
+            template: creditCardTemplate.innerHTML,
+        });
+
+        var app = new Vue({
+            el: '#app',
+            data: function () {
+                return {
+                    cards: [],
+                    name: null,
+                    number: null
+                }
+            },
+            methods: {
+                generateCard: function() {
+                    var name = (app.name).toUpperCase(),
+                        number = app.generateCardNumber(),
+                        code = app.generateCardCode();
+
+                    return app.cards.push({ name, number, code });
+                },
+
+                generateCardNumber: function () {
+                    var randomNumber1 = Math.floor(1000 + Math.random() * 9999),
+                        randomNumber2 = Math.floor(1000 + Math.random() * 9999),
+                        randomNumber3 = Math.floor(1000 + Math.random() * 9999),
+                        randomNumber4 = Math.floor(1000 + Math.random() * 9999);
+
+                    var cardNumber = randomNumber1 + ' ' + randomNumber2 + ' ' + randomNumber3 + ' ' + randomNumber4;
+
+                    return cardNumber;
+                },
+
+                generateCardCode: function() {
+                    var cardCode = Math.floor(100 + Math.random() * 999);
+
+                    return cardCode;
+                },
+            }
+        });
+    </script>
+</html>
